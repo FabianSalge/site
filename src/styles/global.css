@@ -126,7 +126,7 @@ a:hover {
 @media only screen and (max-width: 768px) {
   body {
     padding: 2em 1.5em;
-    font-size: 14px;
+    font-size: 15px;
     justify-content: flex-start;
   }
 }
