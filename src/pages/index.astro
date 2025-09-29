@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import CVExplorer from "../components/CVExplorer.astro";
+import Notes from "../components/Notes.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import { siteConfig } from "../config";
+
+const headProps = {
+  title: siteConfig.name,
+  description: siteConfig.description,
+  link: import.meta.env.SITE
+};
+---
+
+<BaseLayout headProps={headProps}>
+	<article>
+		<Hero />
+		<CVExplorer />
+		<Notes />
+		<SocialLinks />
+	</article>
+</BaseLayout>
+
+<style>
+	article {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 4em;
+	}
+
+	/* Section dividers */
+	article > :global(section:not(:first-child):not(:last-child))::after {
+		content: '';
+		position: absolute;
+		bottom: -2em;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background: linear-gradient(to right, transparent, var(--theme-sub-text) 20%, var(--theme-sub-text) 80%, transparent);
+		opacity: 0.3;
+	}
+
+	article > :global(section) {
+		position: relative;
+	}
+
+	@media (max-width: 768px) {
+		article {
+			gap: 3em;
+		}
+
+		article > :global(section:not(:first-child):not(:last-child))::after {
+			bottom: -1.5em;
+		}
+	}
+</style>

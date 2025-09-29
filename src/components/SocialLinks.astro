@@ -1,0 +1,59 @@
+---
+import { siteConfig } from '../config';
+---
+
+<section class="links">
+  <span class="link-label">→</span>
+  <nav>
+    <a href={`mailto:${siteConfig.social.email}`}>Email</a>
+    <span class="separator">·</span>
+    <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <span class="separator">·</span>
+    <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+    <span class="separator">·</span>
+    <a href={siteConfig.social.x} target="_blank" rel="noopener noreferrer">X</a>
+  </nav>
+</section>
+
+<style>
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    padding-top: 1em;
+  }
+
+  .link-label {
+    color: var(--theme-accent);
+    font-weight: 500;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    align-items: center;
+  }
+
+  .separator {
+    color: var(--theme-sub-text);
+    user-select: none;
+  }
+
+  nav a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .links {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5em;
+    }
+
+    nav {
+      gap: 0.5em;
+    }
+  }
+</style>

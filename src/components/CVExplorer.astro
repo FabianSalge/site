@@ -1,0 +1,196 @@
+---
+import { cvData } from '../data/cv';
+---
+
+<section class="cv-container">
+	<div class="nav-sections">
+		{cvData.map((section) => (
+			<button class="section-toggle" data-section={section.id}>
+				<span class="arrow">→</span>
+				<span>{section.label}</span>
+			</button>
+		))}
+	</div>
+
+	<div class="cv-content">
+		{cvData.map((section) => (
+			<section class="cv-section" id={section.id}>
+				<div class="timeline">
+					{section.items.map((item) => (
+						<div class="timeline-item">
+							<span class="year">{item.year}</span>
+							<div class="content">
+								<h3>{item.title}</h3>
+								<p class="company">{item.company}</p>
+								<p class="description">{item.description}</p>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+		))}
+	</div>
+</section>
+
+<style>
+	/* Container */
+	.cv-container {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 3em;
+		align-items: start;
+		padding-bottom: 1em;
+	}
+
+	/* Navigation */
+	.nav-sections {
+		display: flex;
+		flex-direction: column;
+		gap: 0.8em;
+		min-width: 10em;
+	}
+
+	.section-toggle {
+		background: none;
+		border: none;
+		padding: 0;
+		font: inherit;
+		color: var(--theme-sub-text);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		transition: color 0.2s;
+	}
+
+	.section-toggle:hover,
+	.section-toggle.active {
+		color: var(--theme-accent);
+	}
+
+	.section-toggle .arrow {
+		display: inline-block;
+		transition: transform 0.2s;
+	}
+
+	.section-toggle.active .arrow {
+		transform: rotate(90deg);
+	}
+
+	/* Content area */
+	.cv-content {
+		min-height: 10em;
+	}
+
+	.cv-section {
+		display: none;
+		flex-direction: column;
+		gap: 1.5em;
+	}
+
+	.cv-section.active {
+		display: flex;
+	}
+
+	/* Timeline */
+	.timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+	}
+
+	.timeline-item {
+		display: grid;
+		grid-template-columns: 7em 1fr;
+		gap: 2em;
+		align-items: start;
+	}
+
+	.year {
+		font-size: 0.85em;
+		color: var(--theme-sub-text);
+		padding-top: 0.2em;
+		font-weight: 500;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.content h3 {
+		font-size: 1em;
+		font-weight: 500;
+		margin: 0;
+	}
+
+	.company,
+	.description {
+		margin: 0;
+		color: var(--theme-sub-text);
+	}
+
+	.company {
+		font-size: 0.9em;
+	}
+
+	.description {
+		font-size: 0.95em;
+		color: var(--theme-text);
+		opacity: 0.85;
+		line-height: 1.6;
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.cv-container {
+			grid-template-columns: 1fr;
+			gap: 1.5em;
+		}
+
+		.nav-sections {
+			min-width: 0;
+		}
+
+		.timeline-item {
+			grid-template-columns: 1fr;
+			gap: 0.5em;
+		}
+
+		.year {
+			font-size: 0.8em;
+		}
+	}
+</style>
+
+<script>
+	const toggles = document.querySelectorAll('.section-toggle');
+	const sections = document.querySelectorAll('.cv-section');
+
+	toggles.forEach(toggle => {
+		toggle.addEventListener('click', () => {
+			const sectionId = toggle.getAttribute('data-section');
+			if (!sectionId) return;
+			
+			const section = document.getElementById(sectionId);
+			if (!section) return;
+			
+			const isActive = toggle.classList.contains('active');
+
+			if (isActive) {
+				// Close current section
+				toggle.classList.remove('active');
+				section.classList.remove('active');
+			} else {
+				// Close all sections and deactivate all toggles
+				toggles.forEach(t => t.classList.remove('active'));
+				sections.forEach(s => s.classList.remove('active'));
+
+				// Open clicked section
+				toggle.classList.add('active');
+				section.classList.add('active');
+			}
+		});
+	});
+</script>

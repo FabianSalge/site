@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { notes } from '../data/notes';
+import { siteConfig } from '../config';
+
+const headProps = {
+  title: `Notes - ${siteConfig.name}`,
+  description: 'Thoughts on software, tools, and building things',
+  link: import.meta.env.SITE + '/notes'
+};
+---
+
+<BaseLayout headProps={headProps}>
+  <article class="notes-page">
+    <header>
+      <a href="/" class="back-link">← Home</a>
+      <h1>Notes</h1>
+      <p class="subtitle">Thoughts on software, tools, and building things</p>
+    </header>
+
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="search-input" 
+        placeholder="Search notes..." 
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="all-notes" id="notes-container">
+      {notes.map((note) => (
+        <article class="note-item" data-title={note.title.toLowerCase()} data-preview={(note.preview || '').toLowerCase()}>
+          <div class="note-header">
+            <h2 class="note-title">
+              <a href={`/notes/${note.slug}`}>{note.title}</a>
+            </h2>
+            <span class="note-date">{note.date}</span>
+          </div>
+          {note.preview && <p class="note-preview">{note.preview}</p>}
+        </article>
+      ))}
+    </div>
+
+    <p class="no-results" id="no-results" style="display: none;">
+      No notes found
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .notes-page {
+    width: 100%;
+    max-width: 42em;
+    margin: 0 auto;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    margin-bottom: 3em;
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--theme-sub-text);
+  }
+
+  .back-link {
+    composes: back-link from global;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin: 0;
+    color: var(--theme-text);
+  }
+
+  .subtitle {
+    font-size: 1em;
+    color: var(--theme-sub-text);
+    margin: 0;
+  }
+
+  .search-container {
+    margin-bottom: 2em;
+  }
+
+  #search-input {
+    width: 100%;
+    padding: 0.7em 1em;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95em;
+    background: var(--theme-bg);
+    color: var(--theme-text);
+    border: 1px solid var(--theme-sub-text);
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+  }
+
+  #search-input:focus {
+    outline: none;
+    border-color: var(--theme-accent);
+  }
+
+  #search-input::placeholder {
+    color: var(--theme-sub-text);
+    opacity: 0.6;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--theme-sub-text);
+    padding: 2em 0;
+    font-size: 0.95em;
+  }
+
+  .all-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+  }
+
+  .note-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5em;
+  }
+
+  .note-title {
+    font-size: 1.1em;
+    font-weight: 400;
+    margin: 0;
+    flex: 1;
+  }
+
+  .note-title a {
+    color: var(--theme-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .note-title a:hover {
+    color: var(--theme-accent);
+    background: none;
+  }
+
+  .note-date {
+    font-size: 0.85em;
+    color: var(--theme-sub-text);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .note-preview {
+    font-size: 0.95em;
+    color: var(--theme-sub-text);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.5em;
+    }
+
+    header {
+      margin-bottom: 2em;
+      padding-bottom: 1.5em;
+    }
+
+    .note-header {
+      flex-direction: column;
+      gap: 0.3em;
+      align-items: flex-start;
+    }
+
+    .note-date {
+      font-size: 0.8em;
+    }
+
+    #search-input {
+      font-size: 0.9em;
+      padding: 0.6em 0.9em;
+    }
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const notesContainer = document.getElementById('notes-container');
+  const noResults = document.getElementById('no-results');
+  const noteItems = document.querySelectorAll('.note-item');
+
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    
+    let visibleCount = 0;
+
+    noteItems.forEach((note) => {
+      const title = note.getAttribute('data-title') || '';
+      const preview = note.getAttribute('data-preview') || '';
+      
+      const matches = title.includes(query) || preview.includes(query);
+      
+      if (matches || query === '') {
+        (note as HTMLElement).style.display = 'flex';
+        visibleCount++;
+      } else {
+        (note as HTMLElement).style.display = 'none';
+      }
+    });
+
+    // Show/hide no results message
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  });
+</script>

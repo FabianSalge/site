@@ -1,0 +1,110 @@
+---
+import { notes } from '../data/notes';
+
+const recentNotes = notes.slice(0, 3); 
+---
+
+<section class="notes-section">
+	<div class="notes-header">
+		<h2>Notes</h2>
+		<a href="/notes" class="view-all">View all →</a>
+	</div>
+	<div class="notes-list">
+		{recentNotes.map((note) => (
+			<article class="note-item">
+				<div class="note-header">
+					<h3 class="note-title">
+						<a href={`/notes/${note.slug}`}>{note.title}</a>
+					</h3>
+					<span class="note-date">{note.date}</span>
+				</div>
+				{note.preview && <p class="note-preview">{note.preview}</p>}
+			</article>
+		))}
+	</div>
+</section>
+
+<style>
+	.notes-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+		padding-top: 1em;
+	}
+
+	.notes-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	h2 {
+		composes: section-heading from global;
+	}
+
+	.view-all {
+		composes: back-link from global;
+	}
+
+	.notes-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.8em;
+	}
+
+	.note-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.note-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1.5em;
+	}
+
+	.note-title {
+		font-size: 1em;
+		font-weight: 400;
+		margin: 0;
+		flex: 1;
+	}
+
+	.note-title a {
+		color: var(--theme-text);
+		text-decoration: none;
+	}
+
+	.note-title a:hover {
+		color: var(--theme-accent);
+		background: none;
+	}
+
+	.note-date {
+		font-size: 0.85em;
+		color: var(--theme-sub-text);
+		white-space: nowrap;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.note-preview {
+		font-size: 0.9em;
+		color: var(--theme-sub-text);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.note-header {
+			flex-direction: column;
+			gap: 0.3em;
+			align-items: flex-start;
+		}
+
+		.note-date {
+			font-size: 0.8em;
+		}
+	}
+</style>
