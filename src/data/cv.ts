@@ -21,6 +21,18 @@ export const cvData: CVSection[] = [
         title: 'Software Engineer',
         company: 'JPMorgan Chase · Glasgow',
         description: 'Building and maintaining cloud infrastructure. Working with EKS.'
+      },
+      {
+        year: 'Summer 2023 and Summer 2024',
+        title: 'Software Intern',
+        company: 'JPMorgan Chase · Glasgow',
+        description: 'Intern in the cloud team and corporate investment bank.'
+      },
+      {
+        year: 'Summer 2022',
+        title: 'Computer Vision Intern',
+        company: 'Reed Research Group · Glasgow',
+        description: 'Worked on research team that leveraged computer vision for chemical analysis.'
       }
     ]
   },
@@ -47,22 +59,34 @@ export const cvData: CVSection[] = [
     label: 'Hackathons',
     items: [
       {
-        year: 'Feb 2025',
-        title: 'BSBuster',
-        company: 'Speedinvest Berlin · Winner',
-        description: 'Built a real-time voice fact checker.'
-      },
-      {
         year: 'Mar 2025',
         title: 'Lightspeed',
         company: 'START Hack · Top 3 in Category',
         description: 'Real-time call assistant for wealth managers.'
       },
       {
+        year: 'Feb 2025',
+        title: 'BSBuster',
+        company: 'Speedinvest Berlin · Winner',
+        description: 'Real-time voice conversation fact checker.'
+      },
+      {
         year: 'Nov 2024',
         title: 'Bookable',
         company: 'EF Fall Hack · 4th (Honorable Mention)',
         description: 'AI powered sales agent.'
+      },
+      {
+        year: 'Mai 2024',
+        title: 'Zara AI',
+        company: 'Hack UPC Barcelona · Lots of learning',
+        description: 'Zara clothing recommendation engine.'
+      },
+      {
+        year: 'Oct 2022',
+        title: 'Beemunity',
+        company: 'Code for Good · Lots of learning',
+        description: 'Bee spotting app for local farmers.'
       }
     ]
   }
