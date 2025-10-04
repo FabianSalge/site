@@ -77,7 +77,7 @@ export const cvData: CVSection[] = [
         description: 'AI powered sales agent.'
       },
       {
-        year: 'Mai 2024',
+        year: 'May 2024',
         title: 'Zara AI',
         company: 'Hack UPC Barcelona · Lots of learning',
         description: 'Zara clothing recommendation engine.'
