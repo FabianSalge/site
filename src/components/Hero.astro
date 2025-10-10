@@ -9,7 +9,7 @@ import { siteConfig } from '../config';
 
 <section class="bio">
   <p>
-    German, spent some time in Switzerland, now based in Glasgow. Just wrapped up my master's and building enterprise cloud infrastructure at <a href="https://www.jpmorganchase.com/" target="_blank" rel="noopener noreferrer" class="company-link">JPMorgan Chase</a>. Currently deep-diving into Kubernetes. Off the clock, I'm either at hackathons building random stuff, on the golf course, or on a mission to find Glasgow's best coffee (still searching).
+    German, spent some time in Switzerland, now based in Glasgow. Just wrapped up my master's and building enterprise cloud infrastructure at <a href="https://www.jpmorganchase.com/" target="_blank" rel="noopener noreferrer" class="company-link">JPMorgan Chase</a>. Currently deep-diving into Kubernetes. Off the clock, I'm either at hackathons building random stuff, on the golf course, or on a mission to find Glasgow's best coffee (<a href="/coffee" class="coffee-link">see rankings</a>).
   </p>
 </section>
 
@@ -42,14 +42,16 @@ import { siteConfig } from '../config';
     margin: 0;
   }
 
-  .company-link {
+  .company-link,
+  .coffee-link {
     color: var(--theme-accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s ease;
   }
 
-  .company-link:hover {
+  .company-link:hover,
+  .coffee-link:hover {
     background: none;
     border-bottom-color: var(--theme-accent);
   }
