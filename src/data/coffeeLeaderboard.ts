@@ -39,7 +39,7 @@ export const coffeeShops: CoffeeShop[] = [
     name: 'Through the House',
     location: 'High St',
     rating: 4.1,
-    visitDate: 'Aug 2025',
+    visitDate: 'Oct 2025',
     notes: 'Cool spot, good coffee, free sparkling water!!',
   },
   {
