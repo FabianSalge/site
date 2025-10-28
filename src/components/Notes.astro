@@ -1,7 +1,10 @@
 ---
-import { notes } from '../data/notes';
+import { getCollection } from 'astro:content';
 
-const recentNotes = notes.slice(0, 3); 
+const allNotes = await getCollection('notes');
+const recentNotes = allNotes
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
 ---
 
 <section class="notes-section">
@@ -14,11 +17,11 @@ const recentNotes = notes.slice(0, 3);
 			<article class="note-item">
 				<div class="note-header">
 					<h3 class="note-title">
-						<a href={`/notes/${note.slug}`}>{note.title}</a>
+						<a href={`/notes/${note.slug}`}>{note.data.title}</a>
 					</h3>
-					<span class="note-date">{note.date}</span>
+					<span class="note-date">{note.data.date}</span>
 				</div>
-				{note.preview && <p class="note-preview">{note.preview}</p>}
+				{note.data.preview && <p class="note-preview">{note.data.preview}</p>}
 			</article>
 		))}
 	</div>

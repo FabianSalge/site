@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('coffee-posts');
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<section class="coffee-section">
+	<div class="coffee-header">
+		<h2>Coffee</h2>
+		<a href="/coffee" class="view-all">View all →</a>
+	</div>
+	<div class="coffee-list">
+		{recentPosts.map((post) => (
+			<article class="coffee-item">
+				<div class="coffee-header-item">
+					<h3 class="coffee-title">
+						<a href={`/coffee/${post.slug}`}>{post.data.title}</a>
+					</h3>
+					<div class="coffee-meta">
+						<span class="coffee-date">
+							{post.data.date.toLocaleDateString('en-US', { 
+								month: 'short',
+								day: 'numeric'
+							})}
+						</span>
+						<span class="separator">·</span>
+						<div class="rating">
+							{Array.from({ length: 5 }, (_, i) => (
+								<span class={`star ${i < post.data.rating ? 'filled' : 'empty'}`}>
+									{i < post.data.rating ? '★' : '☆'}
+								</span>
+							))}
+						</div>
+					</div>
+				</div>
+				{post.data.excerpt && <p class="coffee-preview">{post.data.excerpt}</p>}
+			</article>
+		))}
+	</div>
+</section>
+
+<style>
+	.coffee-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+		padding-top: 1em;
+	}
+
+	.coffee-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	h2 {
+		composes: section-heading from global;
+	}
+
+	.view-all {
+		composes: back-link from global;
+	}
+
+	.coffee-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.8em;
+	}
+
+	.coffee-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.coffee-header-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.coffee-title {
+		font-size: 1em;
+		font-weight: 400;
+		margin: 0;
+	}
+
+	.coffee-title a {
+		color: var(--theme-text);
+		text-decoration: none;
+	}
+
+	.coffee-title a:hover {
+		color: var(--theme-accent);
+		background: none;
+	}
+
+	.coffee-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		font-size: 0.85em;
+		color: var(--theme-sub-text);
+	}
+
+	.coffee-date {
+		font-variant-numeric: tabular-nums;
+	}
+
+	.separator {
+		opacity: 0.5;
+	}
+
+	.rating {
+		display: flex;
+		align-items: center;
+		gap: 0.1em;
+	}
+
+	.star {
+		color: var(--theme-sub-text);
+		font-size: 0.9em;
+	}
+
+	.star.filled {
+		color: var(--theme-accent);
+	}
+
+	.coffee-preview {
+		font-size: 0.9em;
+		color: var(--theme-sub-text);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.coffee-meta {
+			font-size: 0.8em;
+		}
+	}
+</style>
+

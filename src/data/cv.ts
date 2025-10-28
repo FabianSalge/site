@@ -59,6 +59,12 @@ export const cvData: CVSection[] = [
     label: 'Hackathons',
     items: [
       {
+        year: 'Oct 2025',
+        title: 'DiveDeeper with the Economist',
+        company: 'Google x The Economist x Elevenlabs Hackathon by Foundry · Winner',
+        description: 'Bringing the people back into news with voice agents.'
+      },
+      {
         year: 'Mar 2025',
         title: 'Lightspeed',
         company: 'START Hack · Top 3 in Category',

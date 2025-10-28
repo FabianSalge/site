@@ -1,0 +1,226 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { coffeeShops } from "../../data/coffeeLeaderboard";
+import { siteConfig } from "../../config";
+
+const headProps = {
+  title: `Coffee Leaderboard · ${siteConfig.name}`,
+  description: "My ranked list of Glasgow's coffee shops",
+  link: `${import.meta.env.SITE}/coffee/leaderboard`
+};
+---
+
+<BaseLayout headProps={headProps}>
+	<article class="leaderboard-page">
+		<header class="page-header">
+			<a href="/coffee" class="back-link">← Coffee</a>
+			<h1>Coffee Leaderboard</h1>
+			<p class="subtitle">Ranking Glasgow's coffee shops</p>
+		</header>
+
+		<div class="leaderboard">
+			{coffeeShops.map((shop) => (
+				<article class="coffee-item">
+					<div class="rank-badge" data-rank={shop.rank}>
+						{shop.highlight ? shop.highlight : `#${shop.rank}`}
+					</div>
+					<div class="coffee-content">
+						<div class="coffee-meta">
+							<h3 class="shop-name">{shop.name}</h3>
+							<div class="meta-details">
+								<span class="location">{shop.location}</span>
+								<span class="separator">·</span>
+								<span class="visit-date">{shop.visitDate}</span>
+							</div>
+						</div>
+						<div class="rating-bar">
+							<div class="stars">
+								{Array.from({ length: 5 }, (_, i) => (
+									<span class={`star ${i < Math.floor(shop.rating) ? 'filled' : i < shop.rating ? 'half' : 'empty'}`}>
+										{i < shop.rating ? '★' : '☆'}
+									</span>
+								))}
+							</div>
+							<span class="rating-value">{shop.rating.toFixed(1)}</span>
+						</div>
+						<p class="notes">{shop.notes}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</article>
+</BaseLayout>
+
+<style>
+	.leaderboard-page {
+		width: 100%;
+		max-width: 38em;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+	}
+
+	.page-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.8em;
+	}
+
+	h1 {
+		font-size: 1.6em;
+		font-weight: 500;
+		margin: 0;
+		color: var(--theme-text);
+	}
+
+	.subtitle {
+		color: var(--theme-sub-text);
+		font-size: 0.9em;
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	.leaderboard {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+	}
+
+	.coffee-item {
+		display: grid;
+		grid-template-columns: 2.5em 1fr;
+		gap: 1.2em;
+		align-items: start;
+		padding: 0.8em 0;
+		border-bottom: 1px solid var(--theme-sub-text);
+		border-bottom-opacity: 0.1;
+	}
+
+	.coffee-item:last-child {
+		border-bottom: none;
+	}
+
+	.rank-badge {
+		font-size: 1.2em;
+		font-weight: 500;
+		color: var(--theme-sub-text);
+		text-align: center;
+		padding-top: 0.15em;
+	}
+
+	.rank-badge[data-rank="1"] {
+		font-size: 1.5em;
+		color: var(--theme-accent);
+	}
+
+	.coffee-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6em;
+	}
+
+	.coffee-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3em;
+	}
+
+	.shop-name {
+		font-size: 1em;
+		font-weight: 500;
+		margin: 0;
+		color: var(--theme-text);
+	}
+
+	.meta-details {
+		display: flex;
+		align-items: center;
+		gap: 0.4em;
+		font-size: 0.8em;
+		color: var(--theme-sub-text);
+	}
+
+	.separator {
+		color: var(--theme-sub-text);
+		opacity: 0.5;
+	}
+
+	.rating-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.6em;
+	}
+
+	.stars {
+		display: flex;
+		gap: 0.1em;
+		font-size: 0.9em;
+	}
+
+	.star {
+		color: var(--theme-sub-text);
+		transition: color 0.2s;
+	}
+
+	.star.filled {
+		color: var(--theme-accent);
+	}
+
+	.star.half {
+		color: var(--theme-accent);
+		opacity: 0.6;
+	}
+
+	.rating-value {
+		font-size: 0.85em;
+		color: var(--theme-sub-text);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.notes {
+		font-size: 0.9em;
+		color: var(--theme-text);
+		opacity: 0.8;
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.leaderboard-page {
+			gap: 1.5em;
+		}
+
+		h1 {
+			font-size: 1.4em;
+		}
+
+		.coffee-item {
+			grid-template-columns: 2em 1fr;
+			gap: 0.8em;
+			padding: 0.7em 0;
+		}
+
+		.rank-badge {
+			font-size: 1em;
+		}
+
+		.rank-badge[data-rank="1"] {
+			font-size: 1.3em;
+		}
+
+		.shop-name {
+			font-size: 0.95em;
+		}
+
+		.meta-details {
+			flex-wrap: wrap;
+			font-size: 0.75em;
+		}
+
+		.notes {
+			font-size: 0.85em;
+		}
+	}
+</style>
+

@@ -1,7 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { notes } from '../data/notes';
+import { getCollection } from 'astro:content';
 import { siteConfig } from '../config';
+
+const allNotes = await getCollection('notes');
+const notes = allNotes.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
 const headProps = {
   title: `Notes - ${siteConfig.name}`,
@@ -29,14 +32,14 @@ const headProps = {
 
     <div class="all-notes" id="notes-container">
       {notes.map((note) => (
-        <article class="note-item" data-title={note.title.toLowerCase()} data-preview={(note.preview || '').toLowerCase()}>
+        <article class="note-item" data-title={note.data.title.toLowerCase()} data-preview={(note.data.preview || '').toLowerCase()}>
           <div class="note-header">
             <h2 class="note-title">
-              <a href={`/notes/${note.slug}`}>{note.title}</a>
+              <a href={`/notes/${note.slug}`}>{note.data.title}</a>
             </h2>
-            <span class="note-date">{note.date}</span>
+            <span class="note-date">{note.data.date}</span>
           </div>
-          {note.preview && <p class="note-preview">{note.preview}</p>}
+          {note.data.preview && <p class="note-preview">{note.data.preview}</p>}
         </article>
       ))}
     </div>

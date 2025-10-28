@@ -28,6 +28,14 @@ export const coffeeShops: CoffeeShop[] = [
   },
   {
     rank: 3,
+    name: 'Gordon Street Coffee',
+    location: 'Gordon St (as you might\'ve guessed)',
+    rating: 4.3,
+    visitDate: 'Aug 2025',
+    notes: 'Great coffee. House blend is awesome.',
+  },
+  {
+    rank: 4,
     name: 'Through the House',
     location: 'High St',
     rating: 4.1,
@@ -35,7 +43,7 @@ export const coffeeShops: CoffeeShop[] = [
     notes: 'Cool spot, good coffee, free sparkling water!!',
   },
   {
-    rank: 4,
+    rank: 5,
     name: 'Kloud',
     location: 'Hutcheson Steet',
     rating: 3.9,
@@ -43,20 +51,12 @@ export const coffeeShops: CoffeeShop[] = [
     notes: 'First time was surpirsingly good. Second visit, was a burnt coffee with long wait time.',
   },
   {
-    rank: 5,
+    rank: 6,
     name: 'Blank Street',
     location: 'Gordon Street',
     rating: 3.4,
     visitDate: 'Sep 2025',
     notes: 'First sips were great, but it quickly became an average coffee.',
-  },
-  {
-    rank: 6,
-    name: 'Outlier',
-    location: 'London Road',
-    rating: 3.1,
-    visitDate: 'Sep 2025',
-    notes: 'Just very mid.',
   }
 ];
 

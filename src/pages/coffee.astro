@@ -1,52 +1,72 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { coffeeShops } from "../data/coffee";
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { siteConfig } from "../config";
 
 const headProps = {
   title: `Coffee · ${siteConfig.name}`,
-  description: "My ranked list of Glasgow's coffee shops",
+  description: "Coffee reviews, visits, and rankings",
   link: `${import.meta.env.SITE}/coffee`
 };
+
+const allPosts = await getCollection('coffee-posts');
+const sortedPosts = allPosts.sort((a: CollectionEntry<'coffee-posts'>, b: CollectionEntry<'coffee-posts'>) => 
+  b.data.date.getTime() - a.data.date.getTime()
+);
 ---
 
 <BaseLayout headProps={headProps}>
 	<article class="coffee-page">
 		<header class="page-header">
-			<a href="/" class="back-link">← Back</a>
-			<h1>Coffee Leaderboard</h1>
-			<p class="subtitle">Ranking (Glasgow's) coffee shops.</p>
+			<div class="header-top">
+				<a href="/" class="back-link">← Back</a>
+				<a href="/coffee/leaderboard" class="leaderboard-link">Leaderboard →</a>
+			</div>
+			<h1>Coffee</h1>
+			<p class="subtitle">Reviews and visits</p>
 		</header>
 
-		<div class="leaderboard">
-			{coffeeShops.map((shop) => (
-				<article class="coffee-item">
-					<div class="rank-badge" data-rank={shop.rank}>
-						{shop.highlight ? shop.highlight : `#${shop.rank}`}
-					</div>
-					<div class="coffee-content">
-						<div class="coffee-meta">
-							<h3 class="shop-name">{shop.name}</h3>
-							<div class="meta-details">
-								<span class="location">{shop.location}</span>
-								<span class="separator">·</span>
-								<span class="visit-date">{shop.visitDate}</span>
-							</div>
-						</div>
-						<div class="rating-bar">
-							<div class="stars">
-								{Array.from({ length: 5 }, (_, i) => (
-									<span class={`star ${i < Math.floor(shop.rating) ? 'filled' : i < shop.rating ? 'half' : 'empty'}`}>
-										{i < shop.rating ? '★' : '☆'}
-									</span>
-								))}
-							</div>
-							<span class="rating-value">{shop.rating.toFixed(1)}</span>
-						</div>
-						<p class="notes">{shop.notes}</p>
-					</div>
-				</article>
-			))}
+		<div class="feed-section">
+			{sortedPosts.length > 0 ? (
+				<div class="feed-list">
+					{sortedPosts.map((post: CollectionEntry<'coffee-posts'>) => (
+						<article class="feed-item">
+							<a href={`/coffee/${post.slug}`} class="feed-link">
+								<div class="feed-header">
+									<h3 class="feed-title">{post.data.title}</h3>
+									<div class="feed-meta">
+										<span class="shop-name">{post.data.shopName}</span>
+										<span class="separator">·</span>
+										<span class="location">{post.data.location}</span>
+									</div>
+								</div>
+								<div class="feed-footer">
+									<div class="rating">
+										{Array.from({ length: 5 }, (_, i) => (
+											<span class={`star ${i < post.data.rating ? 'filled' : 'empty'}`}>
+												{i < post.data.rating ? '★' : '☆'}
+											</span>
+										))}
+										<span class="rating-value">{post.data.rating.toFixed(1)}</span>
+									</div>
+									<time class="date">
+										{post.data.date.toLocaleDateString('en-US', { 
+											year: 'numeric', 
+											month: 'short', 
+											day: 'numeric' 
+										})}
+									</time>
+								</div>
+								{post.data.excerpt && (
+									<p class="excerpt">{post.data.excerpt}</p>
+								)}
+							</a>
+						</article>
+					))}
+				</div>
+			) : (
+				<p class="no-posts">No posts yet. Check back soon!</p>
+			)}
 		</div>
 	</article>
 </BaseLayout>
@@ -54,15 +74,40 @@ const headProps = {
 <style>
 	.coffee-page {
 		width: 100%;
+		max-width: 42em;
+		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 3em;
+		gap: 2em;
 	}
 
 	.page-header {
 		display: flex;
 		flex-direction: column;
-		gap: 1em;
+		gap: 0.6em;
+		margin-bottom: 1em;
+	}
+
+	.header-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.leaderboard-link {
+		font-size: 0.9em;
+		color: var(--theme-sub-text);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.leaderboard-link:hover {
+		color: var(--theme-accent);
+		background: none;
+	}
+
+	.feed-section {
+		width: 100%;
 	}
 
 	h1 {
@@ -79,64 +124,55 @@ const headProps = {
 		line-height: 1.6;
 	}
 
-	.leaderboard {
+	/* Feed Styles */
+	.feed-list {
 		display: flex;
 		flex-direction: column;
-		gap: 2em;
-	}
-
-	.coffee-item {
-		display: grid;
-		grid-template-columns: 3em 1fr;
 		gap: 1.5em;
-		align-items: start;
-		padding: 1em 0;
-		border-bottom: 1px solid var(--theme-sub-text);
-		border-bottom-opacity: 0.1;
-		transition: transform 0.2s ease;
 	}
 
-	.coffee-item:last-child {
+	.feed-item {
+		padding: 1.5em 0;
+		border-bottom: 1px solid var(--theme-sub-text);
+		border-bottom-opacity: 0.15;
+	}
+
+	.feed-item:last-child {
 		border-bottom: none;
 	}
 
-	.coffee-item:hover {
-		transform: translateX(3px);
-	}
-
-	.rank-badge {
-		font-size: 1.4em;
-		font-weight: 500;
-		color: var(--theme-sub-text);
-		text-align: center;
-		padding-top: 0.2em;
-	}
-
-	.rank-badge[data-rank="1"] {
-		font-size: 1.8em;
-		color: var(--theme-accent);
-	}
-
-	.coffee-content {
+	.feed-link {
+		text-decoration: none;
+		color: inherit;
 		display: flex;
 		flex-direction: column;
 		gap: 0.7em;
 	}
 
-	.coffee-meta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4em;
+	.feed-link:hover {
+		background: none;
+		color: inherit;
 	}
 
-	.shop-name {
+	.feed-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3em;
+	}
+
+	.feed-title {
 		font-size: 1.1em;
 		font-weight: 500;
 		margin: 0;
 		color: var(--theme-text);
+		transition: color 0.2s ease;
 	}
 
-	.meta-details {
+	.feed-item:hover .feed-title {
+		color: var(--theme-accent);
+	}
+
+	.feed-meta {
 		display: flex;
 		align-items: center;
 		gap: 0.5em;
@@ -144,76 +180,81 @@ const headProps = {
 		color: var(--theme-sub-text);
 	}
 
+	.shop-name {
+		font-weight: 500;
+	}
+
 	.separator {
-		color: var(--theme-sub-text);
 		opacity: 0.5;
 	}
 
-	.rating-bar {
+	.feed-footer {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		gap: 0.8em;
+		gap: 1em;
 	}
 
-	.stars {
+	.rating {
 		display: flex;
-		gap: 0.15em;
-		font-size: 1em;
+		align-items: center;
+		gap: 0.4em;
 	}
 
 	.star {
 		color: var(--theme-sub-text);
-		transition: color 0.2s;
+		font-size: 0.9em;
 	}
 
 	.star.filled {
 		color: var(--theme-accent);
 	}
 
-	.star.half {
-		color: var(--theme-accent);
-		opacity: 0.6;
+	.rating-value {
+		font-size: 0.85em;
+		color: var(--theme-sub-text);
+		margin-left: 0.2em;
+		font-variant-numeric: tabular-nums;
 	}
 
-	.rating-value {
-		font-size: 0.9em;
+	.date {
+		font-size: 0.85em;
 		color: var(--theme-sub-text);
 		font-variant-numeric: tabular-nums;
 	}
 
-	.notes {
-		font-size: 0.95em;
+	.excerpt {
+		font-size: 0.9em;
 		color: var(--theme-text);
-		opacity: 0.85;
+		opacity: 0.8;
 		margin: 0;
-		line-height: 1.7;
+		line-height: 1.6;
+	}
+
+	.no-posts {
+		text-align: center;
+		color: var(--theme-sub-text);
+		padding: 2em 0;
+		font-size: 0.95em;
 	}
 
 	@media (max-width: 768px) {
-		.coffee-page {
-			gap: 2em;
-		}
-
 		h1 {
 			font-size: 1.5em;
 		}
 
-		.coffee-item {
-			grid-template-columns: 2.5em 1fr;
-			gap: 1em;
-			padding: 0.8em 0;
+		.feed-item {
+			padding: 1.2em 0;
 		}
 
-		.rank-badge {
-			font-size: 1.1em;
+		.feed-title {
+			font-size: 1em;
 		}
 
-		.rank-badge[data-rank="1"] {
-			font-size: 1.5em;
-		}
-
-		.meta-details {
-			flex-wrap: wrap;
+		.feed-footer {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5em;
 		}
 	}
 </style>

@@ -1,0 +1,113 @@
+---
+// Giscus Comments Component
+// Configure at https://giscus.app/ with your repo settings
+interface Props {
+  repo?: string;
+  repoId?: string;
+  category?: string;
+  categoryId?: string;
+}
+
+const {
+  repo = "fabiansalge/site",
+  repoId = "R_kgDOP5UlZQ",
+  category = "General",
+  categoryId = "DIC_kwDOP5UlZc4CwvB9"
+} = Astro.props;
+---
+
+<div class="comments-section">
+  <h2>Comments</h2>
+  <div class="giscus-wrapper">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo={repo}
+      data-repo-id={repoId}
+      data-category={category}
+      data-category-id={categoryId}
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="noborder_light"
+      data-lang="en"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+</div>
+
+<style>
+  .comments-section {
+    margin-top: 4em;
+    padding-top: 2em;
+    border-top: 1px solid var(--theme-sub-text);
+    opacity: 0.95;
+  }
+
+  .comments-section h2 {
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-bottom: 1.5em;
+    color: var(--theme-text);
+  }
+
+  .giscus-wrapper {
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* Giscus iframe styling */
+  .giscus-wrapper :global(.giscus-frame) {
+    border-radius: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .comments-section {
+      margin-top: 3em;
+      padding-top: 1.5em;
+    }
+
+    .comments-section h2 {
+      font-size: 1.2em;
+    }
+  }
+
+  /* Theme color scheme support */
+  @media (prefers-color-scheme: light) {
+    .giscus-wrapper {
+      color-scheme: light;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .giscus-wrapper {
+      color-scheme: dark;
+    }
+  }
+</style>
+
+<script>
+  // Update Giscus theme dynamically when color scheme changes
+  function setGiscusTheme() {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = isDark ? 'noborder_dark' : 'noborder_light';
+    
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (iframe?.contentWindow) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  // Listen for theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setGiscusTheme);
+  
+  // Set theme when Giscus loads
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(setGiscusTheme, 1000);
+  });
+</script>
+
