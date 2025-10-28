@@ -60,6 +60,12 @@ export const cvData: CVSection[] = [
     items: [
       {
         year: 'Oct 2025',
+        title: 'space',
+        company: 'Perplexity · Lots of learning',
+        description: 'Search agent that helps you shop for furniture.'
+      },
+      {
+        year: 'Oct 2025',
         title: 'DiveDeeper with the Economist',
         company: 'Google x The Economist x Elevenlabs Hackathon by Foundry · Winner',
         description: 'Bringing the people back into news with voice agents.'
