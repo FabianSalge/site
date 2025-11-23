@@ -44,6 +44,14 @@ export const coffeeShops: CoffeeShop[] = [
   },
   {
     rank: 5,
+    name: 'Spitfire Coffee',
+    location: 'High Street',
+    rating: 4.2,
+    visitDate: 'Oct 2025',
+    notes: 'Surprisingly good.',
+  },
+  {
+    rank: 6,
     name: 'Through the House',
     location: 'High St',
     rating: 4.1,
@@ -51,7 +59,7 @@ export const coffeeShops: CoffeeShop[] = [
     notes: 'Cool spot, good coffee, free sparkling water!!',
   },
   {
-    rank: 6,
+    rank: 7,
     name: 'Kloud',
     location: 'Hutcheson Steet',
     rating: 3.9,
@@ -59,7 +67,15 @@ export const coffeeShops: CoffeeShop[] = [
     notes: 'First time was surpirsingly good. Second visit, was a burnt coffee with long wait time.',
   },
   {
-    rank: 7,
+    rank: 8,
+    name: 'Cottonrake',
+    location: 'Commerce Steet',
+    rating: 3.7,
+    visitDate: 'Nov 2025',
+    notes: 'Decent coffee. Did not fix my morning tiredness.',
+  },
+  {
+    rank: 9,
     name: 'Artrez',
     location: 'Saltmarket',
     rating: 3.4,
@@ -67,7 +83,7 @@ export const coffeeShops: CoffeeShop[] = [
     notes: 'Beans were a bit too sweet for my taste.',
   },
   {
-    rank: 8,
+    rank: 10,
     name: 'Blank Street',
     location: 'Gordon Street',
     rating: 3.4,
