@@ -25,7 +25,6 @@ export const coffeeShops: CoffeeShop[] = [
     rating: 4.7,
     visitDate: 'Sep 2025',
     notes: 'Great location, Excellent coffee. Almost perfect!!',
-    highlight: '👑 - very close second'
   },
   {
     rank: 3,
