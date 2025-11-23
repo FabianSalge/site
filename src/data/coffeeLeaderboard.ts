@@ -66,7 +66,7 @@ export const coffeeShops: CoffeeShop[] = [
     rating: 3.4,
     visitDate: 'Nov 2025',
     notes: 'Beans were a bit too sweet for my taste.',
-  }
+  },
   {
     rank: 8,
     name: 'Blank Street',
