@@ -61,15 +61,15 @@ export const coffeeShops: CoffeeShop[] = [
   {
     rank: 7,
     name: 'Kloud',
-    location: 'Hutcheson Steet',
+    location: 'Hutcheson Street',
     rating: 3.9,
     visitDate: 'Sep 2025',
-    notes: 'First time was surpirsingly good. Second visit, was a burnt coffee with long wait time.',
+    notes: 'First time was surprisingly good. Second visit, was a burnt coffee with long wait time.',
   },
   {
     rank: 8,
     name: 'Cottonrake',
-    location: 'Commerce Steet',
+    location: 'Commerce Street',
     rating: 3.7,
     visitDate: 'Nov 2025',
     notes: 'Decent coffee. Did not fix my morning tiredness.',

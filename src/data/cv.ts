@@ -3,6 +3,7 @@ export interface TimelineItem {
   title: string;
   company: string;
   description: string;
+  link?: string;
 }
 
 export interface CVSection {
@@ -55,9 +56,42 @@ export const cvData: CVSection[] = [
     ]
   },
   {
+    id: 'certifications',
+    label: 'Certifications',
+    items: [
+      {
+        year: 'Jun 2026',
+        title: 'Certified Kubernetes Administrator (CKA)',
+        company: 'The Linux Foundation · CNCF',
+        description: 'Hands-on certification covering Kubernetes cluster architecture, workloads, networking, storage, and troubleshooting.',
+        link: 'https://www.credly.com/badges/35eadadb-66b9-4597-999e-7721aff91cd5'
+      },
+      {
+        year: 'Nov 2025',
+        title: 'HashiCorp Certified: Terraform Associate (003)',
+        company: 'HashiCorp',
+        description: 'Validates core infrastructure-as-code skills with Terraform: configuration, state management, modules, and provisioning workflows.',
+        link: 'https://www.credly.com/badges/88bfbd6c-60ec-4e9c-97a3-58ff62e36315'
+      },
+      {
+        year: 'Oct 2025',
+        title: 'AWS Certified Cloud Practitioner',
+        company: 'Amazon Web Services (AWS)',
+        description: 'Foundational certification covering AWS cloud concepts, core services, security, architecture, and pricing.',
+        link: 'https://www.credly.com/badges/4d551f06-1f10-426e-9520-879970f80f45'
+      }
+    ]
+  },
+  {
     id: 'hackathons',
     label: 'Hackathons',
     items: [
+      {
+        year: 'Mar 2026',
+        title: 'Property Risk Intelligence',
+        company: 'AI Engine Hack · 2nd Place',
+        description: 'Commercial property risk platform helping insurers monitor what is actually operating inside insured buildings — multi-agent data pipeline, computer vision, and real-time public data. Sponsored by Anthropic, tomoro.ai, Wordsmith, JetBrains, and Dawn Capital.'
+      },
       {
         year: 'Oct 2025',
         title: 'space',
