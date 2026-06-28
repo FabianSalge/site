@@ -21,7 +21,7 @@ export const cvData: CVSection[] = [
         year: '2025—Now',
         title: 'Software Engineer',
         company: 'JPMorgan Chase · Glasgow',
-        description: 'Building and maintaining cloud infrastructure. Working with EKS.'
+        description: 'Building the control plane for a multi-cloud platform.'
       },
       {
         year: 'Summer 2023 & 2024',
